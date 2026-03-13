@@ -26,6 +26,11 @@ const Index = () => {
     }
   }, []);
 
+  const saveToStorage = (data: Shayari[]) => {
+    setShayaris(data);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  };
+
   const handleAddShayari = (newShayariData: Omit<Shayari, "id" | "dateAdded">) => {
     const newShayari: Shayari = {
       ...newShayariData,
@@ -34,12 +39,35 @@ const Index = () => {
     };
 
     const updatedShayaris = [newShayari, ...shayaris];
-    setShayaris(updatedShayaris);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedShayaris));
+    saveToStorage(updatedShayaris);
     
     toast({
       title: "Beautiful words added",
-      description: "The shayari has been permanently added to your collection.",
+      description: "The shayari has been added to your collection.",
+      className: "bg-rose-50 border-rose-200 text-rose-900",
+    });
+  };
+
+  const handleUpdateShayari = (id: string, updatedData: Omit<Shayari, "id" | "dateAdded">) => {
+    const updatedShayaris = shayaris.map((s) => 
+      s.id === id ? { ...s, ...updatedData } : s
+    );
+    saveToStorage(updatedShayaris);
+    
+    toast({
+      title: "Updated",
+      description: "The shayari has been successfully updated.",
+      className: "bg-rose-50 border-rose-200 text-rose-900",
+    });
+  };
+
+  const handleDeleteShayari = (id: string) => {
+    const updatedShayaris = shayaris.filter((s) => s.id !== id);
+    saveToStorage(updatedShayaris);
+    
+    toast({
+      title: "Removed",
+      description: "The shayari has been removed from your collection.",
       className: "bg-rose-50 border-rose-200 text-rose-900",
     });
   };
@@ -75,7 +103,12 @@ const Index = () => {
         {/* Grid of Shayaris */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {shayaris.map((shayari) => (
-            <ShayariCard key={shayari.id} shayari={shayari} />
+            <ShayariCard 
+              key={shayari.id} 
+              shayari={shayari} 
+              onDelete={handleDeleteShayari}
+              onEdit={handleUpdateShayari}
+            />
           ))}
         </div>
 
