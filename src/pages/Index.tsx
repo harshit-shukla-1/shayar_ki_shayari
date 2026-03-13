@@ -88,7 +88,7 @@ const Index = () => {
             <Heart size={40} className="text-rose-500 fill-rose-50 animate-pulse duration-3000" strokeWidth={1.5} />
           </div>
           <h1 className="text-4xl md:text-6xl font-serif font-medium text-rose-950 tracking-tight">
-            Rooh-e-Shayari
+            Rooh ki Shayari
           </h1>
           <p className="text-lg md:text-xl text-rose-800/80 font-serif max-w-2xl mx-auto">
             A sanctuary for words that touch the soul. Explore the timeless romance of classic poets or add your own verses to the collection.
